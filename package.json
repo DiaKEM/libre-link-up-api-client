@@ -1,0 +1,57 @@
+{
+  "name": "@diakem/libre-link-up-api-client",
+  "version": "0.0.0",
+  "description": "Libre Link Up client to retrieve cgm data directly from sharing service",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "ts:type-check": "tsc --noEmit",
+    "ts:type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
+    "start": "babel-watch --extensions \".ts\" src/index.ts",
+    "debug": "babel-watch --inspect 0.0.0.0:9229 --extensions \".ts\" src/index.ts",
+    "lint": "eslint --fix --ext .ts ./src",
+    "format": "prettier --ignore-path .gitignore --write \"src/**/*.+(ts|json)\"",
+    "prepare": "husky install",
+    "release": "release-it"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.17.2",
+    "@babel/node": "^7.16.8",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/plugin-transform-runtime": "^7.17.0",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-typescript": "^7.16.7",
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
+    "@release-it/conventional-changelog": "^4.3.0",
+    "@types/node-schedule": "^1.3.2",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "babel-watch": "^7.7.0",
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.4",
+    "husky": "^7.0.4",
+    "prettier": "^2.5.1",
+    "release-it": "^14.13.1",
+    "typescript": "^3.9.10"
+  },
+  "author": {
+    "name": "Selcuk Kekec",
+    "email": "khskekec@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {}
+}
