@@ -53,5 +53,7 @@
     "email": "khskekec@gmail.com"
   },
   "license": "MIT",
-  "dependencies": {}
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
 }
