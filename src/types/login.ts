@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+
 export type LoginArgs = {
   username: string;
   password: string;
@@ -8,7 +10,7 @@ export interface LoginResponse {
   data: Data;
 }
 
-export interface Data {
+interface Data {
   user: User;
   messages: DataMessages;
   notifications: Notifications;
@@ -16,21 +18,21 @@ export interface Data {
   invitations: string[];
 }
 
-export interface AuthTicket {
+interface AuthTicket {
   token: string;
   expires: number;
   duration: number;
 }
 
-export interface DataMessages {
+interface DataMessages {
   unread: number;
 }
 
-export interface Notifications {
+interface Notifications {
   unresolved: number;
 }
 
-export interface User {
+interface User {
   id: string;
   firstName: string;
   lastName: string;
@@ -54,23 +56,24 @@ export interface User {
   consents: Consents;
 }
 
-export interface Consents {
+interface Consents {
   llu: Llu;
 }
 
-export interface Llu {
+interface Llu {
   policyAccept: number;
   touAccept: number;
 }
 
-export interface Details {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Details {
 }
 
-export interface System {
+interface System {
   messages: SystemMessages;
 }
 
-export interface SystemMessages {
+interface SystemMessages {
   firstUsePhoenix: number;
   firstUsePhoenixReportsDataMerged: number;
   lluGettingStartedBanner: number;

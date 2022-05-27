@@ -1,12 +1,47 @@
 /* eslint-disable no-use-before-define */
 
-export interface ConnectionsResponse {
+export interface GraphData {
   status: number;
-  data: Datum[];
+  data: Data;
   ticket: Ticket;
 }
 
-interface Datum {
+interface Data {
+  connection: Connection;
+  activeSensors: ActiveSensor[];
+  graphData: GlucoseItem[];
+}
+
+interface ActiveSensor {
+  sensor: Sensor;
+  device: Device;
+}
+
+interface Device {
+  did: string;
+  dtid: number;
+  v: string;
+  ll: number;
+  hl: number;
+  u: number;
+  fixedLowAlarmValues: FixedLowAlarmValues;
+  alarms: boolean;
+}
+
+interface FixedLowAlarmValues {
+  mgdl: number;
+  mmoll: number;
+}
+
+interface Sensor {
+  deviceId: string;
+  sn: string;
+  a: number;
+  w: number;
+  pt: number;
+}
+
+interface Connection {
   id: string;
   patientId: string;
   country: string;
@@ -18,10 +53,10 @@ interface Datum {
   uom: number;
   sensor: Sensor;
   alarmRules: AlarmRules;
-  glucoseMeasurement: Glucose;
-  glucoseItem: Glucose;
+  glucoseMeasurement: GlucoseItem;
+  glucoseItem: GlucoseItem;
   glucoseAlarm: null;
-  patientDevice: PatientDevice;
+  patientDevice: Device;
   created: number;
 }
 
@@ -63,42 +98,18 @@ interface Nd {
 interface Std {
 }
 
-interface Glucose {
+interface GlucoseItem {
   FactoryTimestamp: string;
   Timestamp: string;
   type: number;
   ValueInMgPerDl: number;
-  TrendArrow: number;
-  TrendMessage: null;
+  TrendArrow?: number;
+  TrendMessage?: null;
   MeasurementColor: number;
   GlucoseUnits: number;
   Value: number;
   isHigh: boolean;
   isLow: boolean;
-}
-
-interface PatientDevice {
-  did: string;
-  dtid: number;
-  v: string;
-  ll: number;
-  hl: number;
-  u: number;
-  fixedLowAlarmValues: FixedLowAlarmValues;
-  alarms: boolean;
-}
-
-interface FixedLowAlarmValues {
-  mgdl: number;
-  mmoll: number;
-}
-
-interface Sensor {
-  deviceId: string;
-  sn: string;
-  a: number;
-  w: number;
-  pt: number;
 }
 
 interface Ticket {

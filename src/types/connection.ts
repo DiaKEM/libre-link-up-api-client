@@ -1,10 +1,11 @@
+/* eslint-disable no-use-before-define */
 export interface ConnectionResponse {
   status: number;
   data: Data;
   ticket: Ticket;
 }
 
-export interface Data {
+interface Data {
   connection: Connection;
   activeSensors: ActiveSensor[];
   graphData: GlucoseItem[];
@@ -15,7 +16,7 @@ export interface ActiveSensor {
   device: Device;
 }
 
-export interface Device {
+interface Device {
   did: string;
   dtid: number;
   v: string;
@@ -26,12 +27,12 @@ export interface Device {
   alarms: boolean;
 }
 
-export interface FixedLowAlarmValues {
+interface FixedLowAlarmValues {
   mgdl: number;
   mmoll: number;
 }
 
-export interface Sensor {
+interface Sensor {
   deviceId: string;
   sn: string;
   a: number;
@@ -58,7 +59,7 @@ export interface Connection {
   created: number;
 }
 
-export interface AlarmRules {
+interface AlarmRules {
   c: boolean;
   h: H;
   f: F;
@@ -69,7 +70,7 @@ export interface AlarmRules {
   std: Std;
 }
 
-export interface F {
+interface F {
   th: number;
   thmm: number;
   d: number;
@@ -78,7 +79,7 @@ export interface F {
   on?: boolean;
 }
 
-export interface H {
+interface H {
   on: boolean;
   th: number;
   thmm: number;
@@ -86,13 +87,14 @@ export interface H {
   f: number;
 }
 
-export interface Nd {
+interface Nd {
   i: number;
   r: number;
   l: number;
 }
 
-export interface Std {
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface Std {
 }
 
 export interface GlucoseItem {
@@ -109,7 +111,7 @@ export interface GlucoseItem {
   isLow: boolean;
 }
 
-export interface Ticket {
+interface Ticket {
   token: string;
   expires: number;
   duration: number;
