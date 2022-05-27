@@ -7,10 +7,9 @@ export type TrendType =
   | 'NotComputable';
 
 export type LibreCgmData = {
-  value: number,
-  isHigh: boolean,
-  isLow: boolean,
-  trend: TrendType,
-  date: Date
-}
-
+  value: number;
+  isHigh: boolean;
+  isLow: boolean;
+  trend: TrendType;
+  date: Date;
+};

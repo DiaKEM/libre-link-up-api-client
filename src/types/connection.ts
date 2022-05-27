@@ -94,8 +94,7 @@ interface Nd {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Std {
-}
+interface Std {}
 
 export interface GlucoseItem {
   FactoryTimestamp: string;
@@ -116,4 +115,3 @@ interface Ticket {
   expires: number;
   duration: number;
 }
-

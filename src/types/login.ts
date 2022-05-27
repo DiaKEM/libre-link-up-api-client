@@ -3,7 +3,7 @@
 export type LoginArgs = {
   username: string;
   password: string;
-}
+};
 
 export interface LoginResponse {
   status: number;
@@ -66,8 +66,7 @@ interface Llu {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Details {
-}
+interface Details {}
 
 interface System {
   messages: SystemMessages;
@@ -81,4 +80,3 @@ interface SystemMessages {
   lluOnboarding: number;
   lvWebPostRelease: string;
 }
-

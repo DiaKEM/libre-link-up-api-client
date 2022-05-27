@@ -1,14 +1,10 @@
-import axios from "axios";
-import { LibreCgmData } from "./types/client";
-import {
-  ActiveSensor,
-  Connection,
-  GlucoseItem
-} from "./types/connection";
-import { ConnectionsResponse } from "./types/connections";
-import { GraphData } from "./types/graph";
-import { LoginResponse } from "./types/login";
-import { mapData } from "./utils";
+import axios from 'axios';
+import { LibreCgmData } from './types/client';
+import { ActiveSensor, Connection, GlucoseItem } from './types/connection';
+import { ConnectionsResponse } from './types/connections';
+import { GraphData } from './types/graph';
+import { LoginResponse } from './types/login';
+import { mapData } from './utils';
 
 const LIBRE_LINK_SERVER = 'https://api-eu.libreview.io';
 
@@ -18,20 +14,20 @@ type ClientArgs = {
 };
 
 type ReadRawResponse = {
-  connection: Connection,
-  activeSensors: ActiveSensor[],
-  graphData: GlucoseItem[]
+  connection: Connection;
+  activeSensors: ActiveSensor[];
+  graphData: GlucoseItem[];
 };
 
 type ReadResponse = {
-  current: LibreCgmData,
-  history: LibreCgmData[]
-}
+  current: LibreCgmData;
+  history: LibreCgmData[];
+};
 
 const urlMap = {
   login: '/llu/auth/login',
-  connections: '/llu/connections'
-}
+  connections: '/llu/connections',
+};
 
 export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
   let jwtToken: string | null = null;
@@ -42,41 +38,51 @@ export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
     headers: {
       'accept-encoding': 'gzip',
       'cache-control': 'no-cache',
-      'connection': 'Keep-Alive',
+      connection: 'Keep-Alive',
       'content-type': 'application/json',
-      'product': 'llu.android',
-      'version': '4.2.1',
-    }
+      product: 'llu.android',
+      version: '4.2.1',
+    },
   });
-  instance.interceptors.request.use((config) => {
+  instance.interceptors.request.use(
+    config => {
+      if (jwtToken && config.headers) {
+        // eslint-disable-next-line no-param-reassign
+        config.headers.authorization = `Bearer ${jwtToken}`;
+      }
 
-    if (jwtToken && config.headers) {
-      // eslint-disable-next-line no-param-reassign
-      config.headers.authorization = `Bearer ${jwtToken}`;
-    }
-
-    return config;
-  }, e => e, { synchronous: true });
+      return config;
+    },
+    e => e,
+    { synchronous: true }
+  );
 
   const login = async () => {
-    const loginResponse = await instance.post<LoginResponse>(urlMap.login, { email: username, password });
+    const loginResponse = await instance.post<LoginResponse>(urlMap.login, {
+      email: username,
+      password,
+    });
     jwtToken = loginResponse.data.data.authTicket.token;
 
     return loginResponse;
   };
 
-  const loginWrapper = <Return>(func: () => Promise<Return>) => async (): Promise<Return> => {
-    try {
-      if (!jwtToken) await login();
-      return func();
-    } catch (e) {
-      await login();
-      return func();
-    }
-  }
+  const loginWrapper =
+    <Return>(func: () => Promise<Return>) =>
+    async (): Promise<Return> => {
+      try {
+        if (!jwtToken) await login();
+        return func();
+      } catch (e) {
+        await login();
+        return func();
+      }
+    };
 
   const getConnections = loginWrapper<ConnectionsResponse>(async () => {
-    const response = await instance.get<ConnectionsResponse>(urlMap.connections);
+    const response = await instance.get<ConnectionsResponse>(
+      urlMap.connections
+    );
 
     return response.data;
   });
@@ -87,7 +93,9 @@ export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
       connectionId = connections.data[0].patientId;
     }
 
-    const response = await instance.get<GraphData>(`${urlMap.connections}/${connectionId}/graph`);
+    const response = await instance.get<GraphData>(
+      `${urlMap.connections}/${connectionId}/graph`
+    );
 
     return response.data.data;
   });
@@ -97,13 +105,13 @@ export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
 
     return {
       current: mapData(response.connection.glucoseMeasurement),
-      history: response.graphData.map(mapData)
-    }
-  }
+      history: response.graphData.map(mapData),
+    };
+  };
 
   return {
     readRaw,
     read,
-    login
+    login,
   };
-}
+};
