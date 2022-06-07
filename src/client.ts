@@ -107,7 +107,8 @@ export const LibreLinkUpClient = ({
       }
 
       return match.patientId;
-    } if (typeof connectionIdentifier === 'function') {
+    }
+    if (typeof connectionIdentifier === 'function') {
       const match = connectionIdentifier.call(null, connections);
 
       if (!match) {
