@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.3.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.2.0...0.3.0) (2022-06-07)
+
+
+### Features
+
+* connection identifier added ([5078a77](https://github.com/DiaKEM/libre-link-up-api-client/commit/5078a776069e26d6fbc32a50fc10e1e1a0d87eb1))
+
 # 0.2.0 (2022-05-27)
 
 
