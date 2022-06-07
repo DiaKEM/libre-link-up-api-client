@@ -60,7 +60,7 @@ interface Nd {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Std { }
+interface Std {}
 
 interface Glucose {
   FactoryTimestamp: string;

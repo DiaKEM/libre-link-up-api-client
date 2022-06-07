@@ -11,7 +11,7 @@ const LIBRE_LINK_SERVER = 'https://api-eu.libreview.io';
 type ClientArgs = {
   username: string;
   password: string;
-  connectionIdentifier?: string | ((connections: Datum[]) => string)
+  connectionIdentifier?: string | ((connections: Datum[]) => string);
 };
 
 type ReadRawResponse = {
@@ -30,7 +30,11 @@ const urlMap = {
   connections: '/llu/connections',
 };
 
-export const LibreLinkUpClient = ({ username, password, connectionIdentifier }: ClientArgs) => {
+export const LibreLinkUpClient = ({
+  username,
+  password,
+  connectionIdentifier,
+}: ClientArgs) => {
   let jwtToken: string | null = null;
   let connectionId: string | null = null;
 
@@ -70,15 +74,15 @@ export const LibreLinkUpClient = ({ username, password, connectionIdentifier }: 
 
   const loginWrapper =
     <Return>(func: () => Promise<Return>) =>
-      async (): Promise<Return> => {
-        try {
-          if (!jwtToken) await login();
-          return func();
-        } catch (e) {
-          await login();
-          return func();
-        }
-      };
+    async (): Promise<Return> => {
+      try {
+        if (!jwtToken) await login();
+        return func();
+      } catch (e) {
+        await login();
+        return func();
+      }
+    };
 
   const getConnections = loginWrapper<ConnectionsResponse>(async () => {
     const response = await instance.get<ConnectionsResponse>(
@@ -90,15 +94,21 @@ export const LibreLinkUpClient = ({ username, password, connectionIdentifier }: 
 
   const getConnection = (connections: Datum[]): string => {
     if (typeof connectionIdentifier === 'string') {
-      const match = connections.find(({ firstName, lastName }) => `${firstName} ${lastName}`.toLowerCase() === connectionIdentifier.toLowerCase());
+      const match = connections.find(
+        ({ firstName, lastName }) =>
+          `${firstName} ${lastName}`.toLowerCase() ===
+          connectionIdentifier.toLowerCase()
+      );
 
       if (!match) {
-        throw new Error(`Unable to identify connection by given name '${connectionIdentifier}'.`);
+        throw new Error(
+          `Unable to identify connection by given name '${connectionIdentifier}'.`
+        );
       }
 
       return match.patientId;
-    } else if (typeof connectionIdentifier === 'function') {
-      const match = connectionIdentifier.call(null, connections)
+    } if (typeof connectionIdentifier === 'function') {
+      const match = connectionIdentifier.call(null, connections);
 
       if (!match) {
         throw new Error(`Unable to identify connection by given name function`);
@@ -108,7 +118,7 @@ export const LibreLinkUpClient = ({ username, password, connectionIdentifier }: 
     }
 
     return connections[0].patientId;
-  }
+  };
 
   const readRaw = loginWrapper<ReadRawResponse>(async () => {
     if (!connectionId) {
@@ -135,7 +145,7 @@ export const LibreLinkUpClient = ({ username, password, connectionIdentifier }: 
 
   const observe = async () => {
     // @todo
-  }
+  };
 
   return {
     observe,
@@ -144,4 +154,3 @@ export const LibreLinkUpClient = ({ username, password, connectionIdentifier }: 
     login,
   };
 };
-
