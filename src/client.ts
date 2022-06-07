@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LibreCgmData } from './types/client';
 import { ActiveSensor, Connection, GlucoseItem } from './types/connection';
-import { ConnectionsResponse } from './types/connections';
+import { ConnectionsResponse, Datum } from './types/connections';
 import { GraphData } from './types/graph';
 import { LoginResponse } from './types/login';
 import { mapData } from './utils';
@@ -11,6 +11,7 @@ const LIBRE_LINK_SERVER = 'https://api-eu.libreview.io';
 type ClientArgs = {
   username: string;
   password: string;
+  connectionIdentifier?: string | ((connections: Datum[]) => string)
 };
 
 type ReadRawResponse = {
@@ -29,7 +30,7 @@ const urlMap = {
   connections: '/llu/connections',
 };
 
-export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
+export const LibreLinkUpClient = ({ username, password, connectionIdentifier }: ClientArgs) => {
   let jwtToken: string | null = null;
   let connectionId: string | null = null;
 
@@ -69,15 +70,15 @@ export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
 
   const loginWrapper =
     <Return>(func: () => Promise<Return>) =>
-    async (): Promise<Return> => {
-      try {
-        if (!jwtToken) await login();
-        return func();
-      } catch (e) {
-        await login();
-        return func();
-      }
-    };
+      async (): Promise<Return> => {
+        try {
+          if (!jwtToken) await login();
+          return func();
+        } catch (e) {
+          await login();
+          return func();
+        }
+      };
 
   const getConnections = loginWrapper<ConnectionsResponse>(async () => {
     const response = await instance.get<ConnectionsResponse>(
@@ -87,10 +88,33 @@ export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
     return response.data;
   });
 
+  const getConnection = (connections: Datum[]): string => {
+    if (typeof connectionIdentifier === 'string') {
+      const match = connections.find(({ firstName, lastName }) => `${firstName} ${lastName}`.toLowerCase() === connectionIdentifier.toLowerCase());
+
+      if (!match) {
+        throw new Error(`Unable to identify connection by given name '${connectionIdentifier}'.`);
+      }
+
+      return match.patientId;
+    } else if (typeof connectionIdentifier === 'function') {
+      const match = connectionIdentifier.call(null, connections)
+
+      if (!match) {
+        throw new Error(`Unable to identify connection by given name function`);
+      }
+
+      return match;
+    }
+
+    return connections[0].patientId;
+  }
+
   const readRaw = loginWrapper<ReadRawResponse>(async () => {
     if (!connectionId) {
       const connections = await getConnections();
-      connectionId = connections.data[0].patientId;
+
+      connectionId = getConnection(connections.data);
     }
 
     const response = await instance.get<GraphData>(
@@ -109,9 +133,15 @@ export const LibreLinkUpClient = ({ username, password }: ClientArgs) => {
     };
   };
 
+  const observe = async () => {
+    // @todo
+  }
+
   return {
+    observe,
     readRaw,
     read,
     login,
   };
 };
+

@@ -6,7 +6,7 @@ export interface ConnectionsResponse {
   ticket: Ticket;
 }
 
-interface Datum {
+export interface Datum {
   id: string;
   patientId: string;
   country: string;
@@ -60,7 +60,7 @@ interface Nd {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Std {}
+interface Std { }
 
 interface Glucose {
   FactoryTimestamp: string;
