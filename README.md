@@ -94,6 +94,8 @@ The callback method will receive the following parameters:
 average: LibreCgmData,
 // All cgm data which was used to calculate average data
 memory: LibreCgmData[]
+// All historical readings available at the sharing service
+history: LibreCgmData[]
 ```
 
 

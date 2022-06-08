@@ -151,13 +151,17 @@ export const LibreLinkUpClient = ({
   let averageInterval: NodeJS.Timer;
   const readAveraged = async (
     amount: number,
-    callback: (average: LibreCgmData, memory: LibreCgmData[]) => void,
+    callback: (
+      average: LibreCgmData,
+      memory: LibreCgmData[],
+      history: LibreCgmData[]
+    ) => void,
     interval = 15000
   ) => {
     let mem: Map<string, LibreCgmData> = new Map();
 
     averageInterval = setInterval(async () => {
-      const { current } = await read();
+      const { current, history } = await read();
       mem.set(current.date.toString(), current);
 
       if (mem.size === amount) {
@@ -192,6 +196,7 @@ export const LibreLinkUpClient = ({
             isLow: current.isLow,
           },
           memValues,
+          history,
         ]);
       }
     }, interval);
