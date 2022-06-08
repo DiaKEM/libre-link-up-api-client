@@ -1,7 +1,7 @@
 import { TrendType, LibreCgmData } from './types/client';
 import { GlucoseItem } from './types/connection';
 
-const trendMap: TrendType[] = [
+export const trendMap: TrendType[] = [
   'SingleDown',
   'FortyFiveDown',
   'Flat',

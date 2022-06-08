@@ -4,7 +4,7 @@ import { ActiveSensor, Connection, GlucoseItem } from './types/connection';
 import { ConnectionsResponse, Datum } from './types/connections';
 import { GraphData } from './types/graph';
 import { LoginResponse } from './types/login';
-import { mapData } from './utils';
+import { mapData, trendMap } from './utils';
 
 const LIBRE_LINK_SERVER = 'https://api-eu.libreview.io';
 
@@ -148,10 +148,62 @@ export const LibreLinkUpClient = ({
     // @todo
   };
 
+  let averageInterval: NodeJS.Timer;
+  const readAveraged = async (
+    amount: number,
+    callback: (average: LibreCgmData, memory: LibreCgmData[]) => void,
+    interval = 15000
+  ) => {
+    let mem: Map<string, LibreCgmData> = new Map();
+
+    averageInterval = setInterval(async () => {
+      const { current } = await read();
+      mem.set(current.date.toString(), current);
+
+      if (mem.size === amount) {
+        const memValues = Array.from(mem.values());
+        const averageValue = Math.round(
+          memValues.reduce((acc, cur) => acc + cur.value, 0) / amount
+        );
+        const averageTrend =
+          trendMap[
+            parseInt(
+              (
+                Math.round(
+                  (memValues.reduce(
+                    (acc, cur) => acc + trendMap.indexOf(cur.trend),
+                    0
+                  ) /
+                    amount) *
+                    100
+                ) / 100
+              ).toFixed(0),
+              10
+            )
+          ];
+
+        mem = new Map();
+        callback.apply(null, [
+          {
+            trend: averageTrend,
+            value: averageValue,
+            date: current.date,
+            isHigh: current.isHigh,
+            isLow: current.isLow,
+          },
+          memValues,
+        ]);
+      }
+    }, interval);
+
+    return () => clearInterval(averageInterval);
+  };
+
   return {
     observe,
     readRaw,
     read,
+    readAveraged,
     login,
   };
 };
