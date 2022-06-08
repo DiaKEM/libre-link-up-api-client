@@ -22,6 +22,7 @@ The client only needs your *LibreLinkUp* credentials to connect to the sharing s
 cgm data. You do not need to take care of login - the client will handle the initial login and
 also do it if your session expires.
 
+### read()
 ```javascript
 import {LibreLinkUpClient} from '@diakem/libre-link-up-api-client';
 
@@ -42,6 +43,7 @@ export type LibreCgmData = {
 }
 ```
 
+### readRaw()
 You have also the possibility to retrieve the raw response returned by the sharing service:
 
 ```javascript
@@ -61,6 +63,40 @@ type ReadRawResponse = {
   graphData: GlucoseItem[]
 };
 ```
+
+### readAveraged()
+
+Get average data.
+
+* `amount: number`: Amount of data which should be collected before calculating the average
+* `callback: function`: Callback function which will be invoked if `amount` of data was collected and average can be calculated
+* `interval: number (DEFAULT: 15 seconds)`: Milliseconds between each call to the service
+
+```javascript
+import {LibreLinkUpClient} from '@diakem/libre-link-up-api-client';
+
+const {readAveraged} = LibreLinkUpClient({username: 'myLibreLinkUpEmailAddress', password: 'pAssw0rd!'});
+
+const callback = (average, memory) => {
+  console.log({
+      average,
+      memory
+  });  
+};
+
+const response = await readAveraged(5, callback, 15000);
+```
+
+The callback method will receive the following parameters:
+
+```typescript
+// Average dataset
+average: LibreCgmData,
+// All cgm data which was used to calculate average data
+memory: LibreCgmData[]
+```
+
+
 
 ## Contributing
 
