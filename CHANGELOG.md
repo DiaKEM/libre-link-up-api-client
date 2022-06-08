@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.4.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.3.0...0.4.0) (2022-06-08)
+
+
+### Features
+
+* average calculation implemented ([445fd6d](https://github.com/DiaKEM/libre-link-up-api-client/commit/445fd6df5aff2fdf4e0c001b8934158394bfdf5a))
+
 # [0.3.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.2.0...0.3.0) (2022-06-07)
 
 
