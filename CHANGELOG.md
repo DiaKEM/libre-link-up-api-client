@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.5.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.4.0...0.5.0) (2022-06-08)
+
+
+### Features
+
+* historical data added to average callback ([2a96b81](https://github.com/DiaKEM/libre-link-up-api-client/commit/2a96b8147b5130fcc8aa8f4ce44d3045122f227d))
+
 # [0.4.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.3.0...0.4.0) (2022-06-08)
 
 
