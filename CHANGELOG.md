@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.5.0...0.5.1) (2022-06-12)
+
+
+### Bug Fixes
+
+* wrong trend arrows (closes [#4](https://github.com/DiaKEM/libre-link-up-api-client/issues/4)) ([b1ae480](https://github.com/DiaKEM/libre-link-up-api-client/commit/b1ae480ec7d66f5ecaabd539b0d89d62979791ed))
+
 # [0.5.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.4.0...0.5.0) (2022-06-08)
 
 
