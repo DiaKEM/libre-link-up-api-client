@@ -74,15 +74,15 @@ export const LibreLinkUpClient = ({
 
   const loginWrapper =
     <Return>(func: () => Promise<Return>) =>
-      async (): Promise<Return> => {
-        try {
-          if (!jwtToken) await login();
-          return func();
-        } catch (e) {
-          await login();
-          return func();
-        }
-      };
+    async (): Promise<Return> => {
+      try {
+        if (!jwtToken) await login();
+        return func();
+      } catch (e) {
+        await login();
+        return func();
+      }
+    };
 
   const getConnections = loginWrapper<ConnectionsResponse>(async () => {
     const response = await instance.get<ConnectionsResponse>(
@@ -171,19 +171,19 @@ export const LibreLinkUpClient = ({
         );
         const averageTrend =
           trendMap[
-          parseInt(
-            (
-              Math.round(
-                (memValues.reduce(
-                  (acc, cur) => acc + trendMap.indexOf(cur.trend),
-                  0
-                ) /
-                  amount) *
-                100
-              ) / 100
-            ).toFixed(0),
-            10
-          )
+            parseInt(
+              (
+                Math.round(
+                  (memValues.reduce(
+                    (acc, cur) => acc + trendMap.indexOf(cur.trend),
+                    0
+                  ) /
+                    amount) *
+                    100
+                ) / 100
+              ).toFixed(0),
+              10
+            )
           ];
 
         mem = new Map();
