@@ -1,6 +1,6 @@
 {
   "name": "@diakem/libre-link-up-api-client",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Libre Link Up client to retrieve cgm data directly from sharing service",
   "publishConfig": {
     "access": "public"

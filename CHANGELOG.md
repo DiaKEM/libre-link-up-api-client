@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.2](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.5.1...0.5.2) (2022-07-14)
+
+
+### Bug Fixes
+
+* login over api-eu leads to redirect to api-de ([a574541](https://github.com/DiaKEM/libre-link-up-api-client/commit/a5745419e275d66b2d652734858b2ad091f131a9))
+* login over api-eu leads to redirect to api-de ([2f02ce9](https://github.com/DiaKEM/libre-link-up-api-client/commit/2f02ce9b424bbd02c828e05b97d677c0c84c10e8))
+
 ## [0.5.1](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.5.0...0.5.1) (2022-06-12)
 
 
