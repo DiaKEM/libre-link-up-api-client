@@ -1,12 +1,12 @@
 import { LibreLinkUpClient } from './client';
 
-(async function() {
+(async function () {
   const username = 'USERNAME';
   const password = 'PASSWORD';
   const libreClient = LibreLinkUpClient({
     username,
     password,
-    connectionIdentifier: 'IDENTIFIER'
+    connectionIdentifier: 'IDENTIFIER',
   });
 
   const data = await libreClient.read();

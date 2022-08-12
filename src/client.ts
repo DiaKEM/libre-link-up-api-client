@@ -65,21 +65,29 @@ export const LibreLinkUpClient = ({
   );
 
   const login = async (): Promise<LoginResponse> => {
-    const loginResponse = await instance.post<LoginResponse | LoginRedirectResponse>(urlMap.login, {
+    const loginResponse = await instance.post<
+      LoginResponse | LoginRedirectResponse
+    >(urlMap.login, {
       email: username,
       password,
     });
 
     if ((loginResponse.data as LoginRedirectResponse).data.redirect) {
       const redirectResponse = loginResponse.data as LoginRedirectResponse;
-      const countryNodes = await instance.get<CountryResponse>(urlMap.countries);
+      const countryNodes = await instance.get<CountryResponse>(
+        urlMap.countries
+      );
       const targetRegion = redirectResponse.data.region as keyof RegionalMap;
-      const regionDefinition: AE | undefined = countryNodes.data.data.regionalMap[targetRegion];
+      const regionDefinition: AE | undefined =
+        countryNodes.data.data.regionalMap[targetRegion];
 
       if (!regionDefinition) {
         throw new Error(
           `Unable to find region '${redirectResponse.data.region}'. 
-          Available nodes are ${Object.keys(countryNodes.data.data.regionalMap).join(', ')}.`);
+          Available nodes are ${Object.keys(
+            countryNodes.data.data.regionalMap
+          ).join(', ')}.`
+        );
       }
 
       instance.defaults.baseURL = regionDefinition.lslApi;
@@ -92,15 +100,15 @@ export const LibreLinkUpClient = ({
 
   const loginWrapper =
     <Return>(func: () => Promise<Return>) =>
-      async (): Promise<Return> => {
-        try {
-          if (!jwtToken) await login();
-          return func();
-        } catch (e) {
-          await login();
-          return func();
-        }
-      };
+    async (): Promise<Return> => {
+      try {
+        if (!jwtToken) await login();
+        return func();
+      } catch (e) {
+        await login();
+        return func();
+      }
+    };
 
   const getConnections = loginWrapper<ConnectionsResponse>(async () => {
     const response = await instance.get<ConnectionsResponse>(
@@ -189,19 +197,19 @@ export const LibreLinkUpClient = ({
         );
         const averageTrend =
           trendMap[
-          parseInt(
-            (
-              Math.round(
-                (memValues.reduce(
-                  (acc, cur) => acc + trendMap.indexOf(cur.trend),
-                  0
-                ) /
-                  amount) *
-                100
-              ) / 100
-            ).toFixed(0),
-            10
-          )
+            parseInt(
+              (
+                Math.round(
+                  (memValues.reduce(
+                    (acc, cur) => acc + trendMap.indexOf(cur.trend),
+                    0
+                  ) /
+                    amount) *
+                    100
+                ) / 100
+              ).toFixed(0),
+              10
+            )
           ];
 
         mem = new Map();

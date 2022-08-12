@@ -22,5 +22,3 @@ export interface CountryResponse {
   status: number;
   data: Data;
 }
-
-
