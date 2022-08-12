@@ -5,6 +5,17 @@ export type LoginArgs = {
   password: string;
 };
 
+export interface LoginRedirectResponse {
+  status: number;
+  data: LoginRedirectData;
+}
+
+interface LoginRedirectData {
+  redirect: boolean;
+  region: string;
+}
+
+
 export interface LoginResponse {
   status: number;
   data: Data;
@@ -66,7 +77,7 @@ interface Llu {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface Details {}
+interface Details { }
 
 interface System {
   messages: SystemMessages;

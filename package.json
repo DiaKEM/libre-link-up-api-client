@@ -17,6 +17,7 @@
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
     "start": "babel-watch --extensions \".ts\" src/index.ts",
+    "test": "babel-watch --extensions \".ts\" src/client.test.ts",
     "debug": "babel-watch --inspect 0.0.0.0:9229 --extensions \".ts\" src/index.ts",
     "lint": "eslint --fix --ext .ts ./src",
     "format": "prettier --ignore-path .gitignore --write \"src/**/*.+(ts|json)\"",

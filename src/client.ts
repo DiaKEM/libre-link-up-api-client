@@ -2,11 +2,12 @@ import axios from 'axios';
 import { LibreCgmData } from './types/client';
 import { ActiveSensor, Connection, GlucoseItem } from './types/connection';
 import { ConnectionsResponse, Datum } from './types/connections';
+import { CountryResponse, AE, RegionalMap } from './types/countries';
 import { GraphData } from './types/graph';
-import { LoginResponse } from './types/login';
+import { LoginResponse, LoginRedirectResponse } from './types/login';
 import { mapData, trendMap } from './utils';
 
-const LIBRE_LINK_SERVER = 'https://api.libreview.io';
+const LIBRE_LINK_SERVER = 'https://api-us.libreview.io';
 
 type ClientArgs = {
   username: string;
@@ -28,6 +29,7 @@ type ReadResponse = {
 const urlMap = {
   login: '/llu/auth/login',
   connections: '/llu/connections',
+  countries: '/llu/config/country?country=DE',
 };
 
 export const LibreLinkUpClient = ({
@@ -62,27 +64,43 @@ export const LibreLinkUpClient = ({
     { synchronous: true }
   );
 
-  const login = async () => {
-    const loginResponse = await instance.post<LoginResponse>(urlMap.login, {
+  const login = async (): Promise<LoginResponse> => {
+    const loginResponse = await instance.post<LoginResponse | LoginRedirectResponse>(urlMap.login, {
       email: username,
       password,
     });
-    jwtToken = loginResponse.data.data.authTicket.token;
 
-    return loginResponse;
+    if ((loginResponse.data as LoginRedirectResponse).data.redirect) {
+      const redirectResponse = loginResponse.data as LoginRedirectResponse;
+      const countryNodes = await instance.get<CountryResponse>(urlMap.countries);
+      const targetRegion = redirectResponse.data.region as keyof RegionalMap;
+      const regionDefinition: AE | undefined = countryNodes.data.data.regionalMap[targetRegion];
+
+      if (!regionDefinition) {
+        throw new Error(
+          `Unable to find region '${redirectResponse.data.region}'. 
+          Available nodes are ${Object.keys(countryNodes.data.data.regionalMap).join(', ')}.`);
+      }
+
+      instance.defaults.baseURL = regionDefinition.lslApi;
+      return login();
+    }
+    jwtToken = (loginResponse.data as LoginResponse).data.authTicket.token;
+
+    return loginResponse.data as LoginResponse;
   };
 
   const loginWrapper =
     <Return>(func: () => Promise<Return>) =>
-    async (): Promise<Return> => {
-      try {
-        if (!jwtToken) await login();
-        return func();
-      } catch (e) {
-        await login();
-        return func();
-      }
-    };
+      async (): Promise<Return> => {
+        try {
+          if (!jwtToken) await login();
+          return func();
+        } catch (e) {
+          await login();
+          return func();
+        }
+      };
 
   const getConnections = loginWrapper<ConnectionsResponse>(async () => {
     const response = await instance.get<ConnectionsResponse>(
@@ -171,19 +189,19 @@ export const LibreLinkUpClient = ({
         );
         const averageTrend =
           trendMap[
-            parseInt(
-              (
-                Math.round(
-                  (memValues.reduce(
-                    (acc, cur) => acc + trendMap.indexOf(cur.trend),
-                    0
-                  ) /
-                    amount) *
-                    100
-                ) / 100
-              ).toFixed(0),
-              10
-            )
+          parseInt(
+            (
+              Math.round(
+                (memValues.reduce(
+                  (acc, cur) => acc + trendMap.indexOf(cur.trend),
+                  0
+                ) /
+                  amount) *
+                100
+              ) / 100
+            ).toFixed(0),
+            10
+          )
           ];
 
         mem = new Map();
