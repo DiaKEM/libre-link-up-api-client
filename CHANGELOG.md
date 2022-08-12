@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.6.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.5.2...0.6.0) (2022-08-12)
+
+
+### Features
+
+* **login-redirect:** automatically react on redirect during login procedure (fixes [#7](https://github.com/DiaKEM/libre-link-up-api-client/issues/7)) ([263f309](https://github.com/DiaKEM/libre-link-up-api-client/commit/263f3093a805875c6a507e4b17fe173ca3604db5))
+
 ## [0.5.2](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.5.1...0.5.2) (2022-07-14)
 
 
