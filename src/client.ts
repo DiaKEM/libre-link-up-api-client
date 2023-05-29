@@ -72,7 +72,7 @@ export const LibreLinkUpClient = ({
       password,
     });
 
-    if (loginResponse.data.status !== 200) throw new Error('Bad credentials. Please ensure that you have entered the credentials of your LibreLinkUp account (and not of your LibreLink account).');
+    if (loginResponse.data.status === 2) throw new Error('Bad credentials. Please ensure that you have entered the credentials of your LibreLinkUp account (and not of your LibreLink account).');
 
     if ((loginResponse.data as LoginRedirectResponse).data.redirect) {
       const redirectResponse = loginResponse.data as LoginRedirectResponse;
