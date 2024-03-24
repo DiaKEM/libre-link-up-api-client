@@ -120,6 +120,10 @@ This project is using commit hooks to ensure code quality and prevent code smell
 If there are noticeable problems with your code the commit will be rejected. Furthermore convential commits are used to
 standardize commit messages to generate changelogs automatically.
 
+## Showcase
+
+* [LibreLinkUpDesktop](https://github.com/Crazy-Marvin/LibreLinkUpDesktop)
+
 ## License
 
 Distributed under the MIT License.
