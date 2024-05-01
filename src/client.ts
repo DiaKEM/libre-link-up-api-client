@@ -47,8 +47,8 @@ export const LibreLinkUpClient = ({
       'cache-control': 'no-cache',
       connection: 'Keep-Alive',
       'content-type': 'application/json',
-      product: 'llu.android',
-      version: '4.7.0',
+      product: 'llu.ios',
+      version: '4.10.0',
     },
   });
   instance.interceptors.request.use(
