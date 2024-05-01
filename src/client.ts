@@ -7,7 +7,7 @@ import { GraphData } from './types/graph';
 import { LoginResponse, LoginRedirectResponse } from './types/login';
 import { mapData, trendMap } from './utils';
 
-const LIBRE_LINK_SERVER = 'https://api-us.libreview.io';
+const LIBRE_LINK_SERVER = 'https://api-de.libreview.io';
 
 type ClientArgs = {
   username: string;
@@ -47,8 +47,8 @@ export const LibreLinkUpClient = ({
       'cache-control': 'no-cache',
       connection: 'Keep-Alive',
       'content-type': 'application/json',
-      product: 'llu.android',
-      version: '4.7.0',
+      product: 'llu.ios',
+      version: '4.10.0',
     },
   });
   instance.interceptors.request.use(
