@@ -5,10 +5,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "files": [
-    "lib/**/*"
+    "src/**/*"
   ],
   "scripts": {
     "ts:type-check": "tsc --noEmit",
