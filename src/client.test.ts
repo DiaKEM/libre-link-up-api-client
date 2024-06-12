@@ -3,11 +3,11 @@ import { LibreLinkUpClient } from './client';
 (async function () {
   const username = 'USERNAME';
   const password = 'PASSWORD';
-  const version = '4.9.0';
+  const clientVersion = '4.9.0';
   const libreClient = LibreLinkUpClient({
     username,
     password,
-    version,
+    clientVersion,
     connectionIdentifier: 'IDENTIFIER',
   });
 
