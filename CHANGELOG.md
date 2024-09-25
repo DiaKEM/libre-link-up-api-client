@@ -1,5 +1,18 @@
 # Changelog
 
+# [0.7.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.6.1...0.7.0) (2024-09-25)
+
+
+### Bug Fixes
+
+* change bad credentials error code ([1232059](https://github.com/DiaKEM/libre-link-up-api-client/commit/12320599a6927e955870734dcd48230385edc79e))
+
+
+### Features
+
+* error message for bad credentials ([97bfc93](https://github.com/DiaKEM/libre-link-up-api-client/commit/97bfc9304fc46d9855b037283a3cb707070750c2))
+* make client version optional ([0d6f122](https://github.com/DiaKEM/libre-link-up-api-client/commit/0d6f122d3e9a16e8b803c375964f215ee3a351c4))
+
 ## [0.6.1](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.6.0...0.6.1) (2022-11-18)
 
 # [0.6.0](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.5.2...0.6.0) (2022-08-12)
