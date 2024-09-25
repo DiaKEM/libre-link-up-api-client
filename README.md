@@ -26,7 +26,7 @@ also do it if your session expires.
 ```javascript
 import {LibreLinkUpClient} from '@diakem/libre-link-up-api-client';
 
-const {read} = LibreLinkUpClient({username: 'myLibreLinkUpEmailAddress', password: 'pAssw0rd!'});
+const {read} = LibreLinkUpClient({username: 'myLibreLinkUpEmailAddress', password: 'pAssw0rd!', clientVersion: '4.9.0'});
 
 const response = await read();
 ```
@@ -49,7 +49,7 @@ You have also the possibility to retrieve the raw response returned by the shari
 ```javascript
 import {LibreLinkUpClient} from '@diakem/libre-link-up-api-client';
 
-const {readRaw} = LibreLinkUpClient({username: 'myLibreLinkUpEmailAddress', password: 'pAssw0rd!'});
+const {readRaw} = LibreLinkUpClient({username: 'myLibreLinkUpEmailAddress', password: 'pAssw0rd!', clientVersion: '4.9.0'});
 
 const response = await readRaw();
 ```
@@ -75,7 +75,7 @@ Get average data.
 ```javascript
 import {LibreLinkUpClient} from '@diakem/libre-link-up-api-client';
 
-const {readAveraged} = LibreLinkUpClient({username: 'myLibreLinkUpEmailAddress', password: 'pAssw0rd!'});
+const {readAveraged} = LibreLinkUpClient({username: 'myLibreLinkUpEmailAddress', password: 'pAssw0rd!', clientVersion: '4.9.0'});
 
 const callback = (average, memory) => {
   console.log({
