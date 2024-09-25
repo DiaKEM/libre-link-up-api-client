@@ -12,7 +12,7 @@ const LIBRE_LINK_SERVER = 'https://api-us.libreview.io';
 type ClientArgs = {
   username: string;
   password: string;
-  clientVersion: string;
+  clientVersion?: string;
   connectionIdentifier?: string | ((connections: Datum[]) => string);
 };
 
@@ -50,7 +50,7 @@ export const LibreLinkUpClient = ({
       connection: 'Keep-Alive',
       'content-type': 'application/json',
       product: 'llu.android',
-      version: clientVersion,
+      version: clientVersion ?? '4.9.0',
     },
   });
   instance.interceptors.request.use(
