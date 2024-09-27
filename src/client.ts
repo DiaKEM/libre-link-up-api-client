@@ -82,7 +82,7 @@ export const LibreLinkUpClient = ({
 
     if (loginResponse.data.status === 4) {
       throw new Error(
-        `Additional action required for your account: ${loginResponse.data.data?.step?.componentName }. Please login via app and perform required steps and try again.`
+        `Additional action required for your account: ${loginResponse.data.data?.step?.componentName || 'unknown'}. Please login via app and perform required steps and try again.`
       );
     }
 
@@ -166,7 +166,9 @@ export const LibreLinkUpClient = ({
       const connections = await getConnections();
 
       if (connections.data.length === 0) {
-        throw new Error('Your account does not follow any patients. Pleas start following and try again.')
+        throw new Error(
+          'Your account does not follow any patients. Pleas start following and try again.'
+        );
       }
 
       connectionId = getConnection(connections.data);
