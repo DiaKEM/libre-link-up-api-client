@@ -82,7 +82,9 @@ export const LibreLinkUpClient = ({
 
     if (loginResponse.data.status === 4) {
       throw new Error(
-        `Additional action required for your account: ${loginResponse.data.data?.step?.componentName || 'unknown'}. Please login via app and perform required steps and try again.`
+        `Additional action required for your account: ${
+          loginResponse.data.data?.step?.componentName || 'unknown'
+        }. Please login via app and perform required steps and try again.`
       );
     }
 
