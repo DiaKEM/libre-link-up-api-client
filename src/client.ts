@@ -74,10 +74,17 @@ export const LibreLinkUpClient = ({
       password,
     });
 
-    if (loginResponse.data.status === 2)
+    if (loginResponse.data.status === 2) {
       throw new Error(
         'Bad credentials. Please ensure that you have entered the credentials of your LibreLinkUp account (and not of your LibreLink account).'
       );
+    }
+
+    if (loginResponse.data.status === 4) {
+      throw new Error(
+        `Additional action required for your account: ${loginResponse.data.data?.step?.componentName }. Please login via app and perform required steps and try again.`
+      );
+    }
 
     if ((loginResponse.data as LoginRedirectResponse).data.redirect) {
       const redirectResponse = loginResponse.data as LoginRedirectResponse;
@@ -157,6 +164,10 @@ export const LibreLinkUpClient = ({
   const readRaw = loginWrapper<ReadRawResponse>(async () => {
     if (!connectionId) {
       const connections = await getConnections();
+
+      if (connections.data.length === 0) {
+        throw new Error('Your account does not follow any patients. Pleas start following and try again.')
+      }
 
       connectionId = getConnection(connections.data);
     }
