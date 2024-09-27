@@ -4,7 +4,7 @@ import { ActiveSensor, Connection, GlucoseItem } from './types/connection';
 import { ConnectionsResponse, Datum } from './types/connections';
 import { CountryResponse, AE, RegionalMap } from './types/countries';
 import { GraphData } from './types/graph';
-import { LoginResponse, LoginRedirectResponse } from './types/login';
+import { LoginResponse, LoginRedirectResponse, StepData } from './types/login';
 import { mapData, trendMap } from './utils';
 
 const LIBRE_LINK_SERVER = 'https://api-us.libreview.io';
@@ -83,7 +83,7 @@ export const LibreLinkUpClient = ({
     if (loginResponse.data.status === 4) {
       throw new Error(
         `Additional action required for your account: ${
-          loginResponse.data.data?.step?.componentName || 'unknown'
+          (loginResponse.data.data as StepData).step?.componentName || 'unknown'
         }. Please login via app and perform required steps and try again.`
       );
     }
