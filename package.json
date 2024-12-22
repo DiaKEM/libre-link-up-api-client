@@ -47,7 +47,8 @@
     "husky": "^7.0.4",
     "prettier": "^2.5.1",
     "release-it": "^15.1.1",
-    "typescript": "^3.9.10"
+    "typescript": "^3.9.10",
+    "js-sha256": "^0.11.0"
   },
   "author": {
     "name": "Selcuk Kekec",
@@ -55,6 +56,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "js-sha256": "^0.11.0"
   }
 }

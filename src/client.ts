@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { sha256 } from 'js-sha256';
 import { LibreCgmData } from './types/client';
 import { ActiveSensor, Connection, GlucoseItem } from './types/connection';
 import { ConnectionsResponse, Datum } from './types/connections';
@@ -51,6 +52,7 @@ export const LibreLinkUpClient = ({
       'content-type': 'application/json',
       product: 'llu.android',
       version: clientVersion ?? '4.9.0',
+      'account-id': '',
     },
   });
   instance.interceptors.request.use(
@@ -73,7 +75,9 @@ export const LibreLinkUpClient = ({
       email: username,
       password,
     });
-
+    instance.defaults.headers['account-id'] = sha256(
+      loginResponse.data.data.user.id
+    );
     if (loginResponse.data.status === 2) {
       throw new Error(
         'Bad credentials. Please ensure that you have entered the credentials of your LibreLinkUp account (and not of your LibreLink account).'
@@ -130,7 +134,6 @@ export const LibreLinkUpClient = ({
     const response = await instance.get<ConnectionsResponse>(
       urlMap.connections
     );
-
     return response.data;
   });
 
