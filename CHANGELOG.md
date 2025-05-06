@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.2](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.7.1...0.7.2) (2025-05-06)
+
+
+### Bug Fixes
+
+* **client:** update for new api ([bc0da58](https://github.com/DiaKEM/libre-link-up-api-client/commit/bc0da58f2c68de5a12ca7ebe5b037f965ba95fa6))
+
 ## [0.7.1](https://github.com/DiaKEM/libre-link-up-api-client/compare/0.7.0...0.7.1) (2024-09-27)
 
 
