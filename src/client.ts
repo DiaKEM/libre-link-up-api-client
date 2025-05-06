@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { sha256 } from 'js-sha256';
 import { LibreCgmData } from './types/client';
 import { ActiveSensor, Connection, GlucoseItem } from './types/connection';
 import { ConnectionsResponse, Datum } from './types/connections';
@@ -40,6 +41,7 @@ export const LibreLinkUpClient = ({
   connectionIdentifier,
 }: ClientArgs) => {
   let jwtToken: string | null = null;
+  let accountId: string | null = null;
   let connectionId: string | null = null;
 
   const instance = axios.create({
@@ -50,14 +52,17 @@ export const LibreLinkUpClient = ({
       connection: 'Keep-Alive',
       'content-type': 'application/json',
       product: 'llu.android',
-      version: clientVersion ?? '4.9.0',
+      version: clientVersion ?? '4.12.0',
+      'account-id': '',
     },
   });
   instance.interceptors.request.use(
     config => {
-      if (jwtToken && config.headers) {
+      if (jwtToken && config.headers && accountId) {
         // eslint-disable-next-line no-param-reassign
         config.headers.authorization = `Bearer ${jwtToken}`;
+        // eslint-disable-next-line no-param-reassign
+        config.headers['account-id'] = sha256(accountId);
       }
 
       return config;
@@ -110,6 +115,7 @@ export const LibreLinkUpClient = ({
       return login();
     }
     jwtToken = (loginResponse.data as LoginResponse).data.authTicket.token;
+    accountId = (loginResponse.data as LoginResponse).data.user.id;
 
     return loginResponse.data as LoginResponse;
   };

@@ -29,6 +29,7 @@ export interface StepData {
     };
   };
   user: {
+    id: string;
     accountType: string;
     country: string;
     uiLanguage: string;
