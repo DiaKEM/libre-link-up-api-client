@@ -55,7 +55,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.30.0",
+    "axios": "^1.12.0",
     "js-sha256": "^0.11.0"
   }
 }
